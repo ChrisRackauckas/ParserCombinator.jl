@@ -196,6 +196,11 @@ function once(channel)
     throw(ParserException("cannot parse"))
 end
 
+# Custom display for ParserCombinator.ParserException to render newlines properly
+function Base.showerror(io::IO, e::ParserException)
+    print(io, e.msg)
+end
+
 function make_one(config; kargs_make...)
     function single_result(source, matcher::Matcher; kargs_parse...)
         once(make(config, source, matcher; kargs_make..., kargs_parse...)[2])
